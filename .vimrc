@@ -75,6 +75,7 @@ nnoremap <leader>as :ApexScratch<CR>
 nnoremap <leader>ar :ApexRefreshProject<CR>
 nnoremap <leader>ab :ApexStageAdd<CR>
 nnoremap <leader>av :ApexStageClear<CR> 
+nnoremap <leader>af :ApexRefreshFile<CR>
 
 "reformat single line braces to a better syntax
 nnoremap <C-b> :%s/\n[\t\ ]*{/\ {/g<CR>:%s/}[\n\t\ ]*else/}\ else/g<CR>
@@ -131,6 +132,14 @@ function! s:setApexShortcuts()
   vmap <leader>st :call ApexFindVisualSelection('trigger')<CR>
   vmap <leader>sp :call ApexFindVisualSelection('page')<CR>
   vmap <leader>sa :call ApexFindVisualSelection('all')<CR>
+  """"""""""""""""""""""""""""""""""""""""""
+  " CTags shortcuts
+  """"""""""""""""""""""""""""""""""""""""""
+  " shortcut to update ctags DB manually
+  " note for XFCE: disable default workspace 11 switch (Ctrl-F11) shortcut
+  " (settings-> Window Manager -> Keyboard),
+  " otherwise C-F11 in vim does not work
+  map <C-F11> <Esc>:ApexUpdateCtags<CR>
 
 endfunction
 
