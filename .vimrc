@@ -36,11 +36,12 @@ set shiftwidth=4
 set softtabstop=4
 set history=1000
 
-let g:apex_backup_folder="~/.vim/backup"
-let g:apex_temp_folder="~/.vim/temp"
-let g:apex_properties_folder="~/.vim/properties"
-let g:apex_tooling_force_dot_com_path="~/.vim/tooling-force.com.jar"
-let g:apex_workspace_path="~/Workspace/sfdc"
+let $VIMHOME=expand('<sfile>:p:h')
+let g:apex_backup_folder="$VIMHOME/.vim/backup"
+let g:apex_temp_folder="$VIMHOME/.vim/temp"
+let g:apex_properties_folder="$VIMHOME/.vim/properties"
+let g:apex_tooling_force_dot_com_path="$VIMHOME/.vim/tooling-force.com.jar"
+let g:apex_workspace_path="$VIMHOME/Workspace/sfdc"
 let g:apex_maxPollRequests="10000"
 let g:apex_pollWaitMillis="1000" 
 let g:apex_server=1
@@ -72,7 +73,7 @@ nnoremap <leader>ac :ApexTestCoverageToggle<CR>
 nnoremap <leader>al :ApexLog<CR>
 nnoremap <leader>ae :ApexExecuteAnonymous<CR>
 nnoremap <leader>as :ApexScratch<CR>
-nnoremap <leader>ar :ApexRefreshProject<CR>
+nnoremap <leader>ap :ApexRefreshProject<CR>
 nnoremap <leader>ab :ApexStageAdd<CR>
 nnoremap <leader>av :ApexStageClear<CR> 
 nnoremap <leader>af :ApexRefreshFile<CR>
@@ -132,15 +133,6 @@ function! s:setApexShortcuts()
   vmap <leader>st :call ApexFindVisualSelection('trigger')<CR>
   vmap <leader>sp :call ApexFindVisualSelection('page')<CR>
   vmap <leader>sa :call ApexFindVisualSelection('all')<CR>
-  """"""""""""""""""""""""""""""""""""""""""
-  " CTags shortcuts
-  """"""""""""""""""""""""""""""""""""""""""
-  " shortcut to update ctags DB manually
-  " note for XFCE: disable default workspace 11 switch (Ctrl-F11) shortcut
-  " (settings-> Window Manager -> Keyboard),
-  " otherwise C-F11 in vim does not work
-  map <C-F11> <Esc>:ApexUpdateCtags<CR>
-
 endfunction
 
 " load shortcut mapping when one of apexcode file types is detected/loaded
