@@ -19,6 +19,7 @@ Plugin 'elzr/vim-json'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
+Plugin 'pangloss/vim-javascript'
 
 call vundle#end()
 filetype plugin on
