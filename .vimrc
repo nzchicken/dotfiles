@@ -38,11 +38,11 @@ set softtabstop=4
 set history=1000
 
 let $VIMHOME=expand('<sfile>:p:h')
-let g:apex_backup_folder="$VIMHOME/.vim/backup"
-let g:apex_temp_folder="$VIMHOME/.vim/temp"
-let g:apex_properties_folder="$VIMHOME/.vim/properties"
-let g:apex_tooling_force_dot_com_path="$VIMHOME/.vim/tooling-force.com.jar"
-let g:apex_workspace_path="$VIMHOME/Workspace/sfdc"
+let g:apex_backup_folder=$VIMHOME."/.vim/backup"
+let g:apex_temp_folder=$VIMHOME."/.vim/temp"
+let g:apex_properties_folder=$VIMHOME."/.vim/properties"
+let g:apex_tooling_force_dot_com_path=$VIMHOME."/.vim/tooling-force.com.jar"
+let g:apex_workspace_path=$VIMHOME."/Workspace/sfdc"
 let g:apex_maxPollRequests="10000"
 let g:apex_pollWaitMillis="1000" 
 let g:apex_server=1
