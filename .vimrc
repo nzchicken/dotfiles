@@ -20,6 +20,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'bling/vim-airline'
 Plugin 'pangloss/vim-javascript'
+Plugin 'wikitopian/hardmode'
 
 call vundle#end()
 filetype plugin on
@@ -78,6 +79,7 @@ nnoremap <leader>ap :ApexRefreshProject<CR>
 nnoremap <leader>ab :ApexStageAdd<CR>
 nnoremap <leader>av :ApexStageClear<CR> 
 nnoremap <leader>af :ApexRefreshFile<CR>
+nnoremap <leader>h :<Esc>:call ToggleHardMode()<CR>
 
 "reformat single line braces to a better syntax
 nnoremap <C-b> :%s/\n[\t\ ]*{/\ {/g<CR>:%s/}[\n\t\ ]*else/}\ else/g<CR>
