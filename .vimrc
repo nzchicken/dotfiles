@@ -23,7 +23,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'wikitopian/hardmode'
 
 call vundle#end()
-filetype plugin on
+filetype plugin indent on
 
 set background=dark
 syntax on
