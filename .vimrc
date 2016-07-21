@@ -1,29 +1,31 @@
 set nocompatible
-filetype off
+" Load vim-plug
+if empty(glob("~/.vim/autoload/plug.vim"))
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'vim-scripts/delimitMate.vim'
-Plugin 'vim-scripts/Gundo'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'vim-scripts/ScrollColors'
-Plugin 'ervandew/supertab'
-Plugin 'SirVer/ultisnips'
-Plugin 'neowit/vim-force.com'
-Plugin 'elzr/vim-json'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'bling/vim-airline'
-Plugin 'pangloss/vim-javascript'
-Plugin 'wikitopian/hardmode'
-
-call vundle#end()
-filetype plugin indent on
+call plug#begin('~/.vim/bundle')
+Plug 'tpope/vim-fugitive'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'vim-scripts/delimitMate.vim'
+Plug 'vim-scripts/Gundo'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/ScrollColors'
+Plug 'ervandew/supertab'
+Plug 'SirVer/ultisnips'
+Plug 'neowit/vim-force.com'
+", { 'branch' : 'vim-async' }
+Plug 'elzr/vim-json'
+Plug 'Valloric/YouCompleteMe'
+Plug 'flazz/vim-colorschemes'
+Plug 'bling/vim-airline'
+Plug 'pangloss/vim-javascript'
+Plug 'wikitopian/hardmode'
+Plug 'othree/xml.vim'
+call plug#end()
+" filetype plugin indent on
 
 set background=dark
 syntax on
@@ -72,6 +74,7 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <C-n> :NERDTreeToggle %<CR>
 nnoremap <silent> <C-d> :w<CR>:ApexDeploy<CR>
 nnoremap <leader>ac :ApexTestCoverageToggle<CR>
+nnoremap <leader>at :ApexTestWithCoverage tooling-async %:t:r<CR>
 nnoremap <leader>al :ApexLog<CR>
 nnoremap <leader>ae :ApexExecuteAnonymous<CR>
 nnoremap <leader>as :ApexScratch<CR>
