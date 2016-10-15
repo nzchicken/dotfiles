@@ -24,6 +24,8 @@ Plug 'bling/vim-airline'
 Plug 'pangloss/vim-javascript'
 Plug 'wikitopian/hardmode'
 Plug 'othree/xml.vim'
+Plug 'mxw/vim-jsx'
+Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 " filetype plugin indent on
 
