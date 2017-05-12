@@ -8,7 +8,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'tpope/vim-fugitive'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'vim-scripts/delimitMate.vim'
-Plug 'vim-scripts/Gundo'
+Plug 'mbbill/undotree'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
@@ -16,19 +16,35 @@ Plug 'vim-scripts/ScrollColors'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'neowit/vim-force.com'
-", { 'branch' : 'vim-async' }
 Plug 'elzr/vim-json'
 Plug 'Valloric/YouCompleteMe'
 Plug 'flazz/vim-colorschemes'
 Plug 'bling/vim-airline'
-Plug 'pangloss/vim-javascript'
+Plug 'othree/yajs.vim'
 Plug 'wikitopian/hardmode'
 Plug 'othree/xml.vim'
 Plug 'mxw/vim-jsx'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-scripts/ZoomWin'
+Plug 'easymotion/vim-easymotion'
+Plug 'tmhedberg/matchit'
+Plug 'fleischie/vim-styled-components'
 call plug#end()
 " filetype plugin indent on
 
+" fix char encoding on mac
+scriptencoding utf-8
+set encoding=utf-8
+
+" allow backspacing over everything
+set backspace=indent,eol,start
+
+"set backups to central location
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
+" lots of defaults
 set background=dark
 syntax on
 set nu
@@ -42,6 +58,10 @@ set shiftwidth=4
 set softtabstop=4
 set history=1000
 
+" vim-jsx load .js files too
+let g:jsx_ext_required = 0
+
+" salesforce defaults
 let $VIMHOME=expand('<sfile>:p:h')
 let g:apex_backup_folder=$VIMHOME."/.vim/backup"
 let g:apex_temp_folder=$VIMHOME."/.vim/temp"
@@ -59,24 +79,25 @@ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
+
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let g:UltiSnipsSnippetsDir="~/.vim/snips"
 
-" gundo settings
-let g:gundo_right = 1
-let g:gundo_width = 40
+" undotree settings
+let g:undotree_WindowLayout = 4
+let g:undotree_SplitWidth = 40
 
 " custom mappings
-nnoremap <F5> :GundoToggle<CR>
+nnoremap <F5> :UndotreeToggle<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <C-n> :NERDTreeToggle %<CR>
-nnoremap <silent> <C-d> :w<CR>:ApexDeploy<CR>
+nnoremap <silent> <C-d> :w<CR>:ApexSave<CR>
 nnoremap <leader>ac :ApexTestCoverageToggle<CR>
-nnoremap <leader>at :ApexTestWithCoverage tooling-async %:t:r<CR>
+nnoremap <leader>at :ApexTestWithCoverage tooling-async expand('%:t:r')<CR>
 nnoremap <leader>al :ApexLog<CR>
 nnoremap <leader>ae :ApexExecuteAnonymous<CR>
 nnoremap <leader>as :ApexScratch<CR>
@@ -85,7 +106,7 @@ nnoremap <leader>ab :ApexStageAdd<CR>
 nnoremap <leader>av :ApexStageClear<CR> 
 nnoremap <leader>af :ApexRefreshFile<CR>
 nnoremap <leader>h :<Esc>:call ToggleHardMode()<CR>
-
+nnoremap <leader>ra :%s/List<\([^>]*\)>/\1\[\]/g<CR>
 "reformat single line braces to a better syntax
 nnoremap <C-b> :%s/\n[\t\ ]*{/\ {/g<CR>:%s/}[\n\t\ ]*else/}\ else/g<CR>
 "fix poor object creation string
@@ -94,58 +115,8 @@ nnoremap <C-I> :s/\v([ ]*)[^\.]*\.(.*);/    \1\2,/g<CR>
 inoremap <C-Space> <C-x><C-o>
 inoremap <C-@> <C-x><C-o>
 
-function! s:setApexShortcuts()
-
-  """"""""""""""""""""""""""""""""""""""""""
-  " Search in files
-  """"""""""""""""""""""""""""""""""""""""""
-
-  " search exact word
-  nmap <leader>sc :noautocmd vimgrep /\<<C-R><C-W>\>/j ../**/*.cls ../**/*.trigger <CR>:cwin<CR>
-  nmap <leader>st :noautocmd vimgrep /\<<C-R><C-W>\>/j ../**/*.trigger <CR>:cwin<CR>
-  nmap <leader>sp :noautocmd vimgrep /\<<C-R><C-W>\>/j ../**/*.page <CR>:cwin<CR>
-  nmap <leader>sa :noautocmd vimgrep /\<<C-R><C-W>\>/j ../**/*.cls ../**/*.trigger ../**/*.page <CR>:cwin<CR>
-
-  " search - *contains* - partal match is allowed
-  nmap <leader>sC :noautocmd vimgrep /<C-R><C-W>/j ../**/*.cls ../**/*.trigger <CR>:cwin<CR>
-  nmap <leader>sT :noautocmd vimgrep /<C-R><C-W>/j ../**/*.trigger <CR>:cwin<CR>
-  nmap <leader>sP :noautocmd vimgrep /<C-R><C-W>/j ../**/*.page <CR>:cwin<CR>
-  nmap <leader>sA :noautocmd vimgrep /<C-R><C-W>/j ../**/*.cls ../**/*.trigger ../**/*.page <CR>:cwin<CR>
-
-  " prepare search string, but do not run
-  nmap <leader>sm :noautocmd vimgrep /\c\<<C-R><C-W>\>/j ../**/*.cls ../**/*.trigger ../**/*.page \|cwin
-
-  " search visual selection in Apex project
-  function! ApexFindVisualSelection(searchType) range
-    let l:apex_search_patterns = {'class': '../**/*.cls ../**/*.trigger', 
-							     \'trigger': '../**/*.trigger', 
-							     \'page': '../**/*.page', 
-							     \'all': '../**/*.cls ../**/*.trigger ../**/*.page'}
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    let commandLine="noautocmd vimgrep " . '/'. l:pattern . '/j '
-
-    let commandLine = commandLine . l:apex_search_patterns[a:searchType]
-    "echo "commandLine=" . commandLine
-    execute commandLine 
-    execute 'cwin'
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-  endfunction
-  vmap <leader>sc :call ApexFindVisualSelection('class')<CR>
-  vmap <leader>st :call ApexFindVisualSelection('trigger')<CR>
-  vmap <leader>sp :call ApexFindVisualSelection('page')<CR>
-  vmap <leader>sa :call ApexFindVisualSelection('all')<CR>
-endfunction
-
-" load shortcut mapping when one of apexcode file types is detected/loaded
-autocmd FileType apexcode.java call s:setApexShortcuts()
-autocmd FileType apexcode.html call s:setApexShortcuts()
-autocmd FileType apexcode.javascript call s:setApexShortcuts()
-autocmd FileType apexcode call s:setApexShortcuts()
+"change commenting syntax on apex files
+let g:NERDCustomDelimiters = { 
+    \ 'apexcode': { 'left': '//', 'right': '' }
+    \ }
 
