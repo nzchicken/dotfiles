@@ -17,7 +17,7 @@ Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'neowit/vim-force.com'
 Plug 'elzr/vim-json'
-Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
 Plug 'flazz/vim-colorschemes'
 Plug 'bling/vim-airline'
 Plug 'othree/yajs.vim'
@@ -29,6 +29,7 @@ Plug 'vim-scripts/ZoomWin'
 Plug 'easymotion/vim-easymotion'
 Plug 'tmhedberg/matchit'
 Plug 'fleischie/vim-styled-components'
+Plug 'will133/vim-dirdiff'
 call plug#end()
 " filetype plugin indent on
 
@@ -51,7 +52,7 @@ set nu
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
-colorscheme candycode
+colorscheme CandyPaper
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -63,6 +64,7 @@ let g:jsx_ext_required = 0
 
 " salesforce defaults
 let $VIMHOME=expand('<sfile>:p:h')
+let g:apex_API_version=40.0
 let g:apex_backup_folder=$VIMHOME."/.vim/backup"
 let g:apex_temp_folder=$VIMHOME."/.vim/temp"
 let g:apex_properties_folder=$VIMHOME."/.vim/properties"
@@ -95,12 +97,13 @@ nnoremap <F5> :UndotreeToggle<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <C-n> :NERDTreeToggle %<CR>
-nnoremap <silent> <C-d> :w<CR>:ApexSave<CR>
+nnoremap <silent> <C-d> :w<CR>:ApexSave!<CR>
 nnoremap <leader>ac :ApexTestCoverageToggle<CR>
 nnoremap <leader>at :ApexTestWithCoverage tooling-async expand('%:t:r')<CR>
 nnoremap <leader>al :ApexLog<CR>
 nnoremap <leader>ae :ApexExecuteAnonymous<CR>
 nnoremap <leader>as :ApexScratch<CR>
+nnoremap <leader>am :ApexMessages<CR>
 nnoremap <leader>ap :ApexRefreshProject<CR>
 nnoremap <leader>ab :ApexStageAdd<CR>
 nnoremap <leader>av :ApexStageClear<CR> 
@@ -114,6 +117,12 @@ nnoremap <C-I> :s/\v([ ]*)[^\.]*\.(.*);/    \1\2,/g<CR>
 
 inoremap <C-Space> <C-x><C-o>
 inoremap <C-@> <C-x><C-o>
+
+"git rebase changes
+nnoremap <silent> <leader>gd :s/^\S*\ /drop\ /g<CR>
+nnoremap <silent> <leader>gp :s/^\S*\ /pick\ /g<CR>
+nnoremap <silent> <leader>gs :s/^\S*\ /squash\ /g<CR>
+nnoremap <silent> <leader>ge :s/^\S*\ /edit\ /g<CR>
 
 "change commenting syntax on apex files
 let g:NERDCustomDelimiters = { 
