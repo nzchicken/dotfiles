@@ -30,6 +30,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tmhedberg/matchit'
 Plug 'fleischie/vim-styled-components'
 Plug 'will133/vim-dirdiff'
+Plug 'vim-syntastic/syntastic'
 call plug#end()
 " filetype plugin indent on
 
@@ -92,6 +93,10 @@ let g:UltiSnipsSnippetsDir="~/.vim/snips"
 let g:undotree_WindowLayout = 4
 let g:undotree_SplitWidth = 40
 
+" syntastic settings
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+
 " custom mappings
 nnoremap <F5> :UndotreeToggle<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -107,7 +112,6 @@ nnoremap <leader>am :ApexMessages<CR>
 nnoremap <leader>ap :ApexRefreshProject<CR>
 nnoremap <leader>ab :ApexStageAdd<CR>
 nnoremap <leader>av :ApexStageClear<CR> 
-nnoremap <leader>af :ApexRefreshFile<CR>
 nnoremap <leader>h :<Esc>:call ToggleHardMode()<CR>
 nnoremap <leader>ra :%s/List<\([^>]*\)>/\1\[\]/g<CR>
 "reformat single line braces to a better syntax
