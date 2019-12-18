@@ -18,19 +18,21 @@ Plug 'SirVer/ultisnips'
 Plug 'neowit/vim-force.com'
 Plug 'elzr/vim-json'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
-Plug 'flazz/vim-colorschemes'
+Plug 'noah/vim256-color'
 Plug 'bling/vim-airline'
 Plug 'othree/yajs.vim'
-Plug 'wikitopian/hardmode'
 Plug 'othree/xml.vim'
 Plug 'mxw/vim-jsx'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-scripts/ZoomWin'
 Plug 'easymotion/vim-easymotion'
 Plug 'tmhedberg/matchit'
-Plug 'fleischie/vim-styled-components'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'will133/vim-dirdiff'
 Plug 'vim-syntastic/syntastic'
+Plug 'Quramy/tsuquyomi'
+Plug 'leafgarland/typescript-vim'
+Plug 'janko/vim-test'
 call plug#end()
 " filetype plugin indent on
 
@@ -53,12 +55,15 @@ set nu
 if $COLORTERM == 'gnome-terminal'
   set t_Co=256
 endif
-colorscheme CandyPaper
+colorscheme flattr
 set expandtab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set history=1000
+
+" NERDTree
+let g:NERDTreeNodeDelimiter = "\u00a0"
 
 " vim-jsx load .js files too
 let g:jsx_ext_required = 0
@@ -96,15 +101,21 @@ let g:undotree_SplitWidth = 40
 " syntastic settings
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
+let g:syntastic_typescript_checkers = ['eslint']
 
 " custom mappings
 nnoremap <F5> :UndotreeToggle<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <C-n> :NERDTreeToggle %<CR>
-nnoremap <silent> <C-d> :w<CR>:ApexSave!<CR>
+nnoremap <leader>sc :SyntasticCheck<cr>
+nnoremap <leader>sm :SyntasticToggleMode<cr>
+
+" tooling-force mappings
+nnoremap <silent> <C-d> :w<CR>:ApexSave<CR>
+nnoremap <silent> <C-D> :w<CR>:ApexSave!<CR>
 nnoremap <leader>ac :ApexTestCoverageToggle<CR>
-nnoremap <leader>at :ApexTestWithCoverage tooling-async expand('%:t:r')<CR>
+nnoremap <leader>at :ApexTestWithCoverage tooling-async %:t:r<CR>
 nnoremap <leader>al :ApexLog<CR>
 nnoremap <leader>ae :ApexExecuteAnonymous<CR>
 nnoremap <leader>as :ApexScratch<CR>
@@ -112,13 +123,8 @@ nnoremap <leader>am :ApexMessages<CR>
 nnoremap <leader>ap :ApexRefreshProject<CR>
 nnoremap <leader>ab :ApexStageAdd<CR>
 nnoremap <leader>av :ApexStageClear<CR> 
-nnoremap <leader>h :<Esc>:call ToggleHardMode()<CR>
-nnoremap <leader>ra :%s/List<\([^>]*\)>/\1\[\]/g<CR>
-"reformat single line braces to a better syntax
-nnoremap <C-b> :%s/\n[\t\ ]*{/\ {/g<CR>:%s/}[\n\t\ ]*else/}\ else/g<CR>
-"fix poor object creation string
-nnoremap <C-I> :s/\v([ ]*)[^\.]*\.(.*);/    \1\2,/g<CR>
 
+" Super tab mappings
 inoremap <C-Space> <C-x><C-o>
 inoremap <C-@> <C-x><C-o>
 
@@ -128,8 +134,44 @@ nnoremap <silent> <leader>gp :s/^\S*\ /pick\ /g<CR>
 nnoremap <silent> <leader>gs :s/^\S*\ /squash\ /g<CR>
 nnoremap <silent> <leader>ge :s/^\S*\ /edit\ /g<CR>
 
+" vim-test mappings
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tt :TestFile<CR>
+nnoremap <silent> <leader>tT :TestLast<CR>
+nnoremap <silent> <leader>ts :TestSuite<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>
+
 "change commenting syntax on apex files
 let g:NERDCustomDelimiters = { 
     \ 'apexcode': { 'left': '//', 'right': '' }
     \ }
 
+" SFDX vim mappings and commands
+function! s:ExecuteInShell(command)
+  let command = join(map(split(a:command), 'expand(v:val)'))
+  let winnr = bufwinnr('^SFDXPopWindow$')
+  silent! execute  winnr < 0 ? 'botright new SFDXPopWindow' : winnr . 'wincmd w'
+  setlocal buftype=nowrite bufhidden=wipe nobuflisted noswapfile nowrap number
+  echo 'Execute ' . command . '...'
+  silent! execute 'silent %!'. command
+  silent! execute 'resize 8'
+  silent! redraw
+  silent! execute 'au BufUnload <buffer> execute bufwinnr(' . bufnr('#') . ') . ''wincmd w'''
+  silent! execute 'nnoremap <silent> <buffer> <LocalLeader>r :call <SID>ExecuteInShell(''' . command . ''')<CR>'
+  silent! execute 'wincmd p'
+  echo 'Shell command ' . command . ' executed.'
+endfunction
+command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
+
+command! -complete=shellcmd -nargs=* SFDXPush call s:ExecuteInShell('sfdx force:source:push '.<q-args>)
+command! -complete=shellcmd -nargs=* SFDXPull call s:ExecuteInShell('sfdx force:source:pull '.<q-args>)
+command! -complete=shellcmd -nargs=* SFDXLog call s:ExecuteInShell('sfdx force:apex:log:get '.<q-args>)
+command! -complete=shellcmd -nargs=* SFDXTest call s:ExecuteInShell('sfdx force:apex:test:run --loglevel debug -w 10 -r human  '.<q-args>)
+command! -complete=shellcmd -nargs=* SFDXTestWithCoverage call s:ExecuteInShell('sfdx force:apex:test:run --loglevel debug -w 10 -r human -c '.<q-args>)
+
+nnoremap <leader>ss :SFDXPush<CR>
+nnoremap <leader>sS :SFDXPush --forceoverwrite<CR>
+nnoremap <leader>sp :SFDXPull<CR>
+nnoremap <leader>st :SFDXTest --classnames %:t:r<CR>
+nnoremap <leader>sT :SFDXTestWithCoverage --classnames %:t:r<CR>
+nnoremap <leader>sl :SFDXLog -n 1 -c<CR>
