@@ -1,3 +1,4 @@
+source $HOME/.sfdx_env_vars
 export CLICOLOR=1
 
 USERTYPE="0"
@@ -78,18 +79,38 @@ set_bash_prompt() {
 
 PROMPT_COMMAND=set_bash_prompt
 
+# yarn path
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# macports path
+export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+#python path
+export PATH="$PATH:/opt/local/Library/Frameworks/Python.framework/Versions/3.6/bin"
+# android Path
 export ANDROID_HOME="/opt/local/share/java/android-sdk-macosx"
+export PATH="$PATH:{ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools"
+# manual bin path
+export PATH="$HOME/.bin:$PATH"
 
-export PATH="$HOME/.yarn/bin:$PATH:~/Library/Python/3.5/bin:/opt/local/bin:/opt/local/sbin:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:~/.yarn-global/bin:~/.bin"
-
-alias vim='/opt/local/bin/vim'
-alias grep='/opt/local/bin/grep'
+complete -C '/opt/local/Library/Frameworks/Python.framework/Versions/3.6/bin/aws_completer' aws
 
 function co() {
     git checkout -b $1
-    git push --set-upstream origin $1
+    #git push --set-upstream origin $1
 }
 
-function foo() {
-    sfdx force:org:open -u $1
-}
+function foo() { sfdx force:org:open -u $1 ; }
+function fsp() { sfdx force:source:pull $@ ; }
+function fss() { sfdx force:source:push $@ ; }
+
+alias grep='grep --color=auto'
+
+test -f ~/.git-completion.bash && . $_
+
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+cows=(/opt/local/share/cowsay/cows/*)
+cow=${cows[$RANDOM % ${#cows[@]} ]}
+
+fortune -a -s | cowsay -f $cow | lolcat
+
+source '/Users/bennaylor/Workspace/salesforce-cli-bash-completion/sfdx.bash'
