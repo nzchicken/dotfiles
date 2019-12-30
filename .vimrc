@@ -29,7 +29,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tmhedberg/matchit'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'will133/vim-dirdiff'
-Plug 'vim-syntastic/syntastic'
+Plug  'dense-analysis/ale'
 Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 Plug 'janko/vim-test'
