@@ -17,7 +17,7 @@ Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'neowit/vim-force.com'
 Plug 'elzr/vim-json'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --tern-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --ts-completer --go-completer' }
 Plug 'noah/vim256-color'
 Plug 'bling/vim-airline'
 Plug 'othree/yajs.vim'
@@ -32,6 +32,7 @@ Plug 'will133/vim-dirdiff'
 Plug  'dense-analysis/ale'
 Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'janko/vim-test'
 call plug#end()
 " filetype plugin indent on
@@ -140,6 +141,9 @@ nnoremap <silent> <leader>tt :TestFile<CR>
 nnoremap <silent> <leader>tT :TestLast<CR>
 nnoremap <silent> <leader>ts :TestSuite<CR>
 nnoremap <silent> <leader>tv :TestVisit<CR>
+
+" ale bindings
+nnoremap <silent> <leader>gd :ALEGoToDefinition<CR>
 
 "change commenting syntax on apex files
 let g:NERDCustomDelimiters = { 
