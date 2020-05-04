@@ -63,7 +63,7 @@ set_bash_prompt() {
         PS1="$PS1\u@\h"
     fi
 
-    DIRNAME='$(echo $(dirname \w)|sed -e "s;\(/.\)[^/]*;\1;g")/$(basename \w)'
+    DIRNAME='`echo "${PWD%/*}" | sed -e "s;\(/.\)[^/]*;\1;g"`/${PWD##*/}'
 
     PS1="$PS1 $FIRSTFG$SECONDBG$ARROW$SECONDTEXT $DIRNAME "
 
