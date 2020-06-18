@@ -114,3 +114,4 @@ cow=${cows[$RANDOM % ${#cows[@]} ]}
 fortune -a -s | cowsay -f $cow | lolcat
 
 source '/Users/bennaylor/Workspace/salesforce-cli-bash-completion/sfdx.bash'
+eval "$(rbenv init -)"

@@ -9,6 +9,6 @@ spacebar -m config space_icon_strip  I II III IV V VI VII VIII IX X
 spacebar -m config power_icon_strip  🔋 🔌
 spacebar -m config space_icon        
 spacebar -m config clock_icon        
-spacebar -m config clock_format      "%y/%m/%d %R"
+spacebar -m config clock_format      "%Y-%m-%d %R"
 
 echo "spacebar configuration loaded.."

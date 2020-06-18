@@ -17,7 +17,7 @@ Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
 Plug 'neowit/vim-force.com'
 Plug 'elzr/vim-json'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer --ts-completer --go-completer' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --java-completer --clang-completer --ts-completer --go-completer' }
 Plug 'noah/vim256-color'
 Plug 'bling/vim-airline'
 Plug 'othree/yajs.vim'
@@ -29,13 +29,14 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tmhedberg/matchit'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'will133/vim-dirdiff'
-Plug  'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 Plug 'Quramy/tsuquyomi'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 Plug 'janko/vim-test'
+Plug 'vim-ruby/vim-ruby'
 call plug#end()
-" filetype plugin indent on
+filetype plugin indent on
 
 " fix char encoding on mac
 scriptencoding utf-8
@@ -103,6 +104,7 @@ let g:undotree_SplitWidth = 40
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
 let g:syntastic_typescript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = []
 
 " custom mappings
 nnoremap <F5> :UndotreeToggle<cr>
