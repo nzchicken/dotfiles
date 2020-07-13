@@ -15,7 +15,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'vim-scripts/ScrollColors'
 Plug 'ervandew/supertab'
 Plug 'SirVer/ultisnips'
-Plug 'neowit/vim-force.com'
 Plug 'elzr/vim-json'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --java-completer --clang-completer --ts-completer --go-completer' }
 Plug 'noah/vim256-color'
@@ -70,20 +69,6 @@ let g:NERDTreeNodeDelimiter = "\u00a0"
 " vim-jsx load .js files too
 let g:jsx_ext_required = 0
 
-" salesforce defaults
-let $VIMHOME=expand('<sfile>:p:h')
-let g:apex_API_version=40.0
-let g:apex_backup_folder=$VIMHOME."/.vim/backup"
-let g:apex_temp_folder=$VIMHOME."/.vim/temp"
-let g:apex_properties_folder=$VIMHOME."/.vim/properties"
-let g:apex_tooling_force_dot_com_path=$VIMHOME."/.vim/tooling-force.com.jar"
-let g:apex_workspace_path=$VIMHOME."/Workspace/sfdc"
-let g:apex_maxPollRequests="10000"
-let g:apex_pollWaitMillis="1000" 
-let g:apex_server=1
-let g:apex_server_timeoutSec=60*60*2
-let g:apex_quickfix_coverage_toggle_shortcut = "c"
-
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -113,19 +98,6 @@ nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <silent> <C-n> :NERDTreeToggle %<CR>
 nnoremap <leader>sc :SyntasticCheck<cr>
 nnoremap <leader>sm :SyntasticToggleMode<cr>
-
-" tooling-force mappings
-nnoremap <silent> <C-d> :w<CR>:ApexSave<CR>
-nnoremap <silent> <C-D> :w<CR>:ApexSave!<CR>
-nnoremap <leader>ac :ApexTestCoverageToggle<CR>
-nnoremap <leader>at :ApexTestWithCoverage tooling-async %:t:r<CR>
-nnoremap <leader>al :ApexLog<CR>
-nnoremap <leader>ae :ApexExecuteAnonymous<CR>
-nnoremap <leader>as :ApexScratch<CR>
-nnoremap <leader>am :ApexMessages<CR>
-nnoremap <leader>ap :ApexRefreshProject<CR>
-nnoremap <leader>ab :ApexStageAdd<CR>
-nnoremap <leader>av :ApexStageClear<CR> 
 
 " Super tab mappings
 inoremap <C-Space> <C-x><C-o>
@@ -168,16 +140,3 @@ function! s:ExecuteInShell(command)
   echo 'Shell command ' . command . ' executed.'
 endfunction
 command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
-
-command! -complete=shellcmd -nargs=* SFDXPush call s:ExecuteInShell('sfdx force:source:push '.<q-args>)
-command! -complete=shellcmd -nargs=* SFDXPull call s:ExecuteInShell('sfdx force:source:pull '.<q-args>)
-command! -complete=shellcmd -nargs=* SFDXLog call s:ExecuteInShell('sfdx force:apex:log:get '.<q-args>)
-command! -complete=shellcmd -nargs=* SFDXTest call s:ExecuteInShell('sfdx force:apex:test:run --loglevel debug -w 10 -r human  '.<q-args>)
-command! -complete=shellcmd -nargs=* SFDXTestWithCoverage call s:ExecuteInShell('sfdx force:apex:test:run --loglevel debug -w 10 -r human -c '.<q-args>)
-
-nnoremap <leader>ss :SFDXPush<CR>
-nnoremap <leader>sS :SFDXPush --forceoverwrite<CR>
-nnoremap <leader>sp :SFDXPull<CR>
-nnoremap <leader>st :SFDXTest --classnames %:t:r<CR>
-nnoremap <leader>sT :SFDXTestWithCoverage --classnames %:t:r<CR>
-nnoremap <leader>sl :SFDXLog -n 1 -c<CR>
