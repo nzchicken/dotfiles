@@ -1,4 +1,3 @@
-source $HOME/.sfdx_env_vars
 export CLICOLOR=1
 
 USERTYPE="0"
@@ -98,10 +97,6 @@ function co() {
     #git push --set-upstream origin $1
 }
 
-function foo() { sfdx force:org:open -u $1 ; }
-function fsp() { sfdx force:source:pull $@ ; }
-function fss() { sfdx force:source:push $@ ; }
-
 alias grep='grep --color=auto'
 
 test -f ~/.git-completion.bash && . $_
@@ -113,5 +108,4 @@ cow=${cows[$RANDOM % ${#cows[@]} ]}
 
 fortune -a -s | cowsay -f $cow | lolcat
 
-source '/Users/bennaylor/Workspace/salesforce-cli-bash-completion/sfdx.bash'
 eval "$(rbenv init -)"
