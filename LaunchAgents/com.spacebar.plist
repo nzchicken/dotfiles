@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
   <key>Label</key>
-  <string>com.yabai</string>
+  <string>com.spacebar</string>
   <key>ProgramArguments</key>
-    <array>
-      <string>/opt/local/bin/yabai</string>
-    </array>
+  <array>
+    <string>/opt/local/bin/spacebar</string>
+  </array>
   <key>EnvironmentVariables</key>
   <dict>
     <key>PATH</key>
@@ -18,8 +18,8 @@
   <key>KeepAlive</key>
   <true/>
   <key>StandardOutPath</key>
-  <string>/Users/cw2775/Library/Logs/yabai.out.log</string>
+  <string>/Users/cw2775/Library/Logs/spacebar.out.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/cw2775/Library/Logs/yabai.err.log</string>
+  <string>/Users/cw2775/Library/Logs/spacebar.err.log</string>
 </dict>
 </plist>

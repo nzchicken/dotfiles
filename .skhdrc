@@ -1,5 +1,6 @@
 # open terminal
-cmd - return : /Applications/Kitty.app/Contents/MacOS/kitty --single-instance -d ~/Workspace
+cmd - return : /Applications/kitty.app/Contents/MacOS/kitty --single-instance
+# -d ~/Workspace
 #cmd - return : ~/iterm.sh
 
 # focus window
@@ -157,6 +158,9 @@ alt - o : yabai -m window --toggle topmost
 alt - p : yabai -m window --toggle sticky;\
           yabai -m window --toggle topmost;\
           yabai -m window --grid 5:5:4:0:1:1
+
+# set opaque
+shift + alt - o : yabai -m window --opacity 1
 
 # change layout of desktop
 ctrl + alt - a : yabai -m space --layout bsp

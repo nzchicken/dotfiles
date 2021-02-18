@@ -18,8 +18,8 @@
   <key>KeepAlive</key>
   <true/>
   <key>StandardOutPath</key>
-  <string>/Users/bennaylor/Library/Logs/skhd.out.log</string>
+  <string>/Users/cw2775/Library/Logs/skhd.out.log</string>
   <key>StandardErrorPath</key>
-  <string>/Users/bennaylor/Library/Logs/skhd.err.log</string>
+  <string>/Users/cw2775/Library/Logs/skhd.err.log</string>
 </dict>
 </plist>
